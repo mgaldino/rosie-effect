@@ -40,14 +40,17 @@ add_legislature <- function(tweet_data) {
     mutate(nu_legislatura = ifelse(created_at < as.Date("2007-01-01"), 2003, 
                                    ifelse(created_at < as.Date("2011-01-01"), 2007,
                                           ifelse(created_at < as.Date("2015-01-01"), 2011,
-                                                 ifelse(created_at < as.Date("2019-01-01"), 2015, 2019)))))
+                                                 ifelse(created_at < as.Date("2019-01-01"), 2015, 2019)))),
+           nu_legislatura = as.character(nu_legislatura))
 }
 
 
-names_first_match <- function(legislators_name_data, tweet_data2){
+names_first_match <- function(legislators_name_data, tweet_data){
+  
+  tweet_data <- add_legislature(tweet_data)
   # join
-  tweet_data2 <- tweet_data2 %>%
-    left_join(legislators_name_data, by = join_by(nome_deputado == tx_nome_parlamentar))
+  tweet_data2 <- tweet_data %>%
+    left_join(legislators_name_data, by = join_by(nome_deputado == tx_nome_parlamentar, nu_legislatura))
   
 }
 

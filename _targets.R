@@ -59,6 +59,6 @@ list(
   tar_target(cota_parlamentar_data1, get_raw_data(legislator_file)),
   tar_target(legislators_name_data, get_legislators_name(cota_parlamentar_data1)),
   tar_target(legislators_name_data_cleaned, clean_names_legislators(legislators_name_data, "txNomeParlamentar")),
-  tar_target(tweet_data2_cleaned, clean_names_legislators(tweet_data2, "nome_deputado")),
-  tar_target(legislators_1st_match_data, names_first_match(legislators_name_data, tweet_data1)),
+  tar_target(tweet_data1_cleaned, clean_names_legislators(tweet_data1, "nome_deputado")),
+  tar_target(legislators_1st_match_data, names_first_match(legislators_name_data, tweet_data1_cleaned)),
   tar_target(summary_match, print_summary(legislators_1st_match_data)))
