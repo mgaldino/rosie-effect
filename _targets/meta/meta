@@ -1,0 +1,20 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+add_legislature|function|fba79382d80fe18e|||||||||||||||
+clean_names_legislators|function|4a12aa979d1936dd|||||||||||||||
+cota_parlamentar_data1|stem|0bdf8f04174a684c|bd60dd6c70bb5e10|b735dab9087f22e9|1330581961||t19779.7560221329s|baa2810ccf3184c3|98109922|rds|local|vector|||34.11||
+get_legislators_name|function|f352861e65f28f42|||||||||||||||
+get_raw_data|function|1d09c65a8f2fc86d|||||||||||||||
+legislator_file|stem|42b9b35e4ec69212|7093761dbafad76c|ef46db3751d8e999|-1812772556|Raw data/Cota_parlamentar_2011 to 2022.csv|t19779.6119313889s|33d0a1ffda62c668|1291633433|file|local|vector|||0||
+legislators_1st_match_data|stem|ab390c853fe2063a|1fc560552104ac3a|6715ec0bc94f96c7|-207300016||t19779.8526115038s|c95e207024143e03|73182|rds|local|vector|||0.1|Detected an unexpected manytomany relationship between x and y.ℹ Row 2 of x matches multiple rows in y.ℹ Row 1605 of y matches multiple rows in x.ℹ If a manytomany relationship is expected, set relationship   manytomany to silence this warning.|
+legislators_name_data|stem|f431994b52dad9f5|66084fd20c275cc0|6bb3cf2c5be35dca|191644550||t19779.7907125532s|8b16e2033f408a4b|57165|rds|local|vector|||0.78||
+legislators_name_data_cleaned|stem|ad2243f298249b83|e2e85f6db20724db|70aa196e5467448e|-2128731410||t19779.8526118779s|778cce92a52bb194|57732|rds|local|vector|||0.02||
+names_first_match|function|2477f3da5faf9c89|||||||||||||||
+print_summary|function|8a6b27c13bdad371|||||||||||||||
+summary_match|stem|cf7c5c616021eaf0|5853f61d14459711|bcea5e4149c19e8a|476882422||t19779.85261212s|f1200f896ae9e733|525|rds|local|vector|||0.02||
+teste|stem|d731cf8310cd6ccb|ce387b9975b5cfff|17733b37e7b7969f|-1638544619||t19779.7587428095s|a1c456b03adbfbf8|44|rds|local|vector|||0.7|package ggplot2 was built under R version 4.3.2|
+teste_here|function|4394b9cceeac17c2|||||||||||||||
+tweet_data1|stem|80f083115d43df59|3d12309965a8549b|9cf1c6ad58dabc97|-511490467||t19779.7560254395s|3e746002b3d502f3|48919|rds|local|vector|||0.12||
+tweet_data2|stem|8d314ab9250869b4|0d7d4c405c985388|2ad0e6d62a8305ac|-2047479844||t19779.7560259342s|fe423a4fb4505e15|4462|rds|local|vector|||0.03||
+tweet_data2_cleaned|stem|594f40d62bf2b1f5|e7125ac02ef31d8b|bc4978783d2f2498|1028687499||t19779.7907129467s|de1050be8c5f2839|4519|rds|local|vector|||0||
+tweet_file1|stem|011b7ef56cef2bf4|3a284d0929718d8e|ef46db3751d8e999|-262550952|Raw data/v2 COM NOMES.rosiedaserenata_tweets1_8April2017 to 16Sep2021.xlsx|t19779.5620640498s|dfb4f9cab40f1d39|163158|file|local|vector|||0||
+tweet_file2|stem|b0d5d78f17c0aac3|24ba8bdd98ffb365|ef46db3751d8e999|-208179987|Raw data/Rosie_22October2021_10November 2022.csv|t19779.5617681414s|2412f53f59e07722|36437|file|local|vector|||0||
