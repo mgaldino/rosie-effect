@@ -25,7 +25,7 @@ get_legislators_name <- function(file2){
 
 clean_names_legislators <- function(data, name_var) {
   data <- data %>%
-    mutate({{name_var}} := iconv(tolower({{name_var}}), "UTF-8", "ASCII//TRANSLIT"))
+    mutate({{name_var}} := iconv(tolower(!!sym(name_var)), "UTF-8", "ASCII//TRANSLIT"))
   
   # legislators_name_data <- legislators_name_data %>%
   #   mutate(txNomeParlamentar = iconv(tolower(txNomeParlamentar), "UTF-8", "ASCII//TRANSLIT"))
@@ -54,6 +54,17 @@ names_first_match <- function(legislators_name_data, tweet_data){
   
 }
 
+clean_parlamentary_data <- function(data) {
+  data <- data %>%
+    janitor::clean_names() %>%
+    filter(!is.na(dat_emissao) & !grepl("TELEFONIA", txt_descricao)) %>% # !!sym(var_name)
+    mutate(dat_emissao = as_date(dat_emissao)) %>%
+    filter(!is.na(dat_emissao) & cpf != "cpf") %>%
+    mutate(dat_pagamento_restituicao = as_date(dat_pagamento_restituicao),
+           year_month_payment = paste(year(dat_emissao),month(dat_emissao), sep="-"),
+           year_month_refund = paste(year(dat_pagamento_restituicao),month(dat_pagamento_restituicao),sep="-")) 
+  
+}
 
 print_summary <- function(legislators_1st_match_data) {
   print(summary(legislators_1st_match_data))

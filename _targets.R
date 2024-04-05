@@ -10,7 +10,7 @@ library(targets)
 # Set target options:
 tar_option_set(
 packages = c("tidyverse", "data.table", "readxl", "here",
-             "tools", "janitor"), # Packages that your targets need for their tasks.
+             "tools", "janitor", "lubridate"), # Packages that your targets need for their tasks.
 format = "rds", # Optionally set the default storage format. qs is fast.
   #
   # Pipelines that take a long time to run may benefit from
@@ -57,8 +57,9 @@ list(
   tar_target(tweet_data1, get_raw_data(tweet_file1)),
   tar_target(tweet_data2, get_raw_data(tweet_file2)),
   tar_target(cota_parlamentar_data1, get_raw_data(legislator_file)),
+  tar_target(parlamentary_allowance_data, clean_parlamentary_data(cota_parlamentar_data1)),
   tar_target(legislators_name_data, get_legislators_name(cota_parlamentar_data1)),
-  tar_target(legislators_name_data_cleaned, clean_names_legislators(legislators_name_data, "txNomeParlamentar")),
+  tar_target(legislators_name_data_cleaned, clean_names_legislators(legislators_name_data, "tx_nome_parlamentar")),
   tar_target(tweet_data1_cleaned, clean_names_legislators(tweet_data1, "nome_deputado")),
-  tar_target(legislators_1st_match_data, names_first_match(legislators_name_data, tweet_data1_cleaned)),
+  tar_target(legislators_1st_match_data, names_first_match(legislators_name_data_cleaned, tweet_data1_cleaned)),
   tar_target(summary_match, print_summary(legislators_1st_match_data)))
