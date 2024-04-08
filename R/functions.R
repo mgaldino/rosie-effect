@@ -67,6 +67,10 @@ clean_parlamentary_data <- function(data) {
   
 }
 
-print_summary <- function(legislators_1st_match_data) {
-  print(summary(legislators_1st_match_data))
+join_by_cpf <- function(datax, datay){
+  df <- dplyr::inner_join(datax, datay, by = join_by(cpf, nu_legislatura))
+}
+
+print_summary <- function(data) {
+  print(summary(data))
 }

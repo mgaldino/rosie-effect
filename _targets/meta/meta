@@ -2,22 +2,24 @@ name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iterat
 add_legislature|function|82a16ddadd2b97c9|||||||||||||||
 clean_names_legislators|function|e3c3fc47adeb0df9|||||||||||||||
 clean_parlamentary_data|function|acedb2c7fcafde1c|||||||||||||||
-cota_parlamentar_data1|stem|0bdf8f04174a684c|bd60dd6c70bb5e10|b735dab9087f22e9|1330581961||t19779.7560221329s|baa2810ccf3184c3|98109922|rds|local|vector|||34.11||
+cota_parlamentar_data1|stem|2b53cb5060d951d7|bd60dd6c70bb5e10|b735dab9087f22e9|1330581961||t19821.7505726191s|99f02c9bdda7f7e2|98109925|rds|local|vector|||17.01||
 get_legislators_name|function|f352861e65f28f42|||||||||||||||
 get_raw_data|function|1d09c65a8f2fc86d|||||||||||||||
-legislator_file|stem|42b9b35e4ec69212|7093761dbafad76c|ef46db3751d8e999|-1812772556|Raw data/Cota_parlamentar_2011 to 2022.csv|t19779.6119313889s|33d0a1ffda62c668|1291633433|file|local|vector|||0||
-legislators_1st_match_data|stem|a9da845f798cc68b|aca646f9ded7e2df|ce7c8aef08a36cc4|-207300016||t19779.8840475741s|959dbf560567cfba|59812|rds|local|vector|||0.02||
-legislators_name_data|stem|f431994b52dad9f5|66084fd20c275cc0|6bb3cf2c5be35dca|191644550||t19779.7907125532s|8b16e2033f408a4b|57165|rds|local|vector|||0.78||
-legislators_name_data_cleaned|stem|941fe57a35c08d34|d6b4e2f3a063bdc2|f7ba4d98cb23cd82|-2128731410||t19779.8840470408s|a42c8e595855bf6b|54172|rds|local|vector|||0.02||
+join_by_cpf|function|847fb92d82eabcb7|||||||||||||||
+leg_tweet_allowance_joined|stem|805e72dbcd671f36|d1a9fefeec6d71fd|2c031d7ec6ec0b40|835490101||t19821.7590598601s|f2f1492d5f5ec3ea|95644012|rds|local|vector|||7.61|Detected an unexpected manytomany relationship between x and y.ℹ Row 1 of x matches multiple rows in y.ℹ Row 2776083 of y matches multiple rows in x.ℹ If a manytomany relationship is expected, set relationship   manytomany to silence this warning.|
+legislator_file|stem|42b9b35e4ec69212|7093761dbafad76c|ef46db3751d8e999|-1812772556|Raw data/Cota_parlamentar_2011 to 2022.csv|t19821.7494352124s|33d0a1ffda62c668|1291633433|file|local|vector|||0.76|package ggplot2 was built under R version 4.3.2. package purrr was built under R version 4.3.1. package lubridate was built under R version 4.3.2. package readxl was built under R version 4.3.1. package here was built under R version 4.3.2. package janitor was built under R version 4.3.1|
+legislators_1st_match_data|stem|0f817eb7b0286895|aca646f9ded7e2df|5e3e989d9891e6bb|-207300016||t19821.7513279145s|55d5a935512694a4|59810|rds|local|vector|||0.01||
+legislators_name_data|stem|d7be2b4f6e9b44f8|66084fd20c275cc0|837d301a7f5c9a98|191644550||t19821.7505878295s|9fb2d9242de724ce|57163|rds|local|vector|||1.11||
+legislators_name_data_cleaned|stem|a614d1bfdb57ed23|d6b4e2f3a063bdc2|a167dfc97cc24fe8|-2128731410||t19821.7513275487s|5832a05f36bc156c|54169|rds|local|vector|||0.01||
 names_first_match|function|4b99a80ed39d030e|||||||||||||||
-parlamentary_allowance_data|stem|d3bf934bc1fe05d5|b61f3967cb7025da|e1a9ea09194f168b|-691590121||t19818.6178558484s|ed8e947628d48dc4|87603647|rds|local|vector|||32.93|There was 1 warning in mutate.ℹ In argument dat_emissao  as_datedat_emissao.Caused by warning  12 failed to parse.|
-print_summary|function|8a6b27c13bdad371|||||||||||||||
-summary_match|stem|6f22c105a80ef43e|5853f61d14459711|b1075e1d256d8829|476882422||t19779.8840478066s|54dc36f9f45e0a54|513|rds|local|vector|||0.02||
+parlamentary_allowance_data|stem|f7c63ce898cf0621|b61f3967cb7025da|6e17151e79850683|-691590121||t19821.7513259347s|ed8e947628d48dc4|87603647|rds|local|vector|||20.67|There was 1 warning in mutate.ℹ In argument dat_emissao  as_datedat_emissao.Caused by warning  12 failed to parse.|
+print_summary|function|6a7a2ab0e8eac531|||||||||||||||
+summary_match|stem|700fe83471e182a9|67b09ddd4e847ce2|1a0b39a84e613a18|476882422||t19821.7590708741s|33fc5a4849fac781|950|rds|local|vector|||0.86||
 teste|stem|d731cf8310cd6ccb|ce387b9975b5cfff|17733b37e7b7969f|-1638544619||t19779.7587428095s|a1c456b03adbfbf8|44|rds|local|vector|||0.7|package ggplot2 was built under R version 4.3.2|
 teste_here|function|4394b9cceeac17c2|||||||||||||||
-tweet_data1|stem|80f083115d43df59|3d12309965a8549b|9cf1c6ad58dabc97|-511490467||t19779.7560254395s|3e746002b3d502f3|48919|rds|local|vector|||0.12||
-tweet_data1_cleaned|stem|9f8f39ebc8f52ed6|87c428cd0af2b796|3a01fa1bd7673e33|-24610761||t19779.8834579694s|a7c0705a25def6b2|47963|rds|local|vector|||0.02||
-tweet_data2|stem|8d314ab9250869b4|0d7d4c405c985388|2ad0e6d62a8305ac|-2047479844||t19779.7560259342s|fe423a4fb4505e15|4462|rds|local|vector|||0.03||
+tweet_data1|stem|181485bb46a3c63d|3d12309965a8549b|9cf1c6ad58dabc97|-511490467||t19821.7505745588s|f88308f972e964af|48917|rds|local|vector|||0.05||
+tweet_data1_cleaned|stem|f83f5ed1454ec9ea|87c428cd0af2b796|1af9a44b8007d1df|-24610761||t19821.7513271405s|609dc41f9cf0570e|47962|rds|local|vector|||0.01||
+tweet_data2|stem|ed50a6998715c958|0d7d4c405c985388|2ad0e6d62a8305ac|-2047479844||t19821.7505747787s|09675626d3483494|4461|rds|local|vector|||0.01||
 tweet_data2_cleaned|stem|594f40d62bf2b1f5|e7125ac02ef31d8b|bc4978783d2f2498|1028687499||t19779.7907129467s|de1050be8c5f2839|4519|rds|local|vector|||0||
-tweet_file1|stem|011b7ef56cef2bf4|3a284d0929718d8e|ef46db3751d8e999|-262550952|Raw data/v2 COM NOMES.rosiedaserenata_tweets1_8April2017 to 16Sep2021.xlsx|t19779.5620640498s|dfb4f9cab40f1d39|163158|file|local|vector|||0||
-tweet_file2|stem|b0d5d78f17c0aac3|24ba8bdd98ffb365|ef46db3751d8e999|-208179987|Raw data/Rosie_22October2021_10November 2022.csv|t19779.5617681414s|2412f53f59e07722|36437|file|local|vector|||0||
+tweet_file1|stem|011b7ef56cef2bf4|3a284d0929718d8e|ef46db3751d8e999|-262550952|Raw data/v2 COM NOMES.rosiedaserenata_tweets1_8April2017 to 16Sep2021.xlsx|t19821.7494881797s|dfb4f9cab40f1d39|163158|file|local|vector|||0||
+tweet_file2|stem|b0d5d78f17c0aac3|24ba8bdd98ffb365|ef46db3751d8e999|-208179987|Raw data/Rosie_22October2021_10November 2022.csv|t19821.749485157s|2412f53f59e07722|36437|file|local|vector|||0||
