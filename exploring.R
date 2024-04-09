@@ -13,6 +13,8 @@ library(janitor)
 library(txt4cs)
 library(stopwords)
 library(lubridate)
+library(ggplot2)
+library(panelView)
 
 head(stopwords::stopwords("pt", source = "snowball"), 20)
 
@@ -23,6 +25,142 @@ words <- words %>%
 ## Import data set
 tar_load(leg_tweet_allowance_joined)
 glimpse(leg_tweet_allowance_joined)
+
+tar_load(tweet_data1)
+tar_load(tweet_data2)
+
+glimpse(tweet_data1)
+glimpse(tweet_data2)
+
+tweet_by_month <-  leg_tweet_allowance_joined %>%
+  mutate(month_year = floor_date(as.Date(created_at), "month")) %>%
+  distinct(cpf, month_year, id, .keep_all = TRUE) %>% 
+  group_by(month_year, cpf) %>%
+  summarise(tweets = n_distinct(id),
+            fav = sum(favorite_count),
+            retweet = sum(retweet_count))
+
+allowance_month <- leg_tweet_allowance_joined %>%
+  mutate(month_year = floor_date(dat_emissao, "month"),
+         spending = as.numeric(vlr_documento)) %>%
+  filter(cpf  != "") %>%
+  group_by(cpf, month_year) %>%
+  summarise(spending = sum(spending))
+            
+# 00001608657
+
+df <- allowance_month %>%
+  left_join(tweet_by_month, by = join_by(cpf, month_year)) %>%
+  mutate(bol_tweets = ifelse(is.na(tweets), 0, 1),
+         tweets = ifelse(is.na(tweets), 0, tweets),
+         fav = ifelse(is.na(fav), 0, fav),
+         retweet = ifelse(is.na(retweet), 0, retweet))
+
+glimpse(df)
+
+panelview(spending ~ bol_tweets, data = df, index = c("cpf","month_year"),
+          axis.lab = "time", xlab = "Time", ylab = "Unit", show.id = c(1:249),
+          theme.bw = TRUE, type = "outcome", main = "Total spending",
+          axis.lab.gap = c(5,0))
+
+
+
+allowance_month1 <- leg_tweet_allowance_joined %>%
+  mutate(month_year = floor_date(dat_emissao, "month"),
+         month_year_tweet = floor_date(as.Date(created_at), "month"),
+         spending = as.numeric(vlr_documento),
+         bol_tweet = ifelse(month_year_tweet == month_year, 1, 0)) %>%
+  filter(cpf  != "") %>%
+  group_by(cpf, nu_legislatura, month_year) %>%
+  summarise(spending = sum(spending),
+            tweets = sum(bol_tweet),
+            num_tweets = sum(bol_tweet),
+            num_fav = ifelse(month_year_tweet == month_year, sum(favorite_count), 0),
+            num_retweets = ifelse(month_year_tweet == month_year, sum(retweet_count), 0)
+)
+
+glimpse(allowance_month1)
+
+
+allowance_month %>%
+  ungroup() %>%
+  group_by(month_year) %>%
+  summarise(num_mp = n_distinct(cpf),
+            spending = sum(spending),
+            mean_spending_per_mp = sum(spending)/num_mp) %>%
+  ggplot(aes(x=month_year, y = spending)) + geom_line()  +
+  theme_bw() + xlab("date") + ylab("Total spending")
+
+allowance_month %>%
+  ungroup() %>%
+  group_by(month_year) %>%
+  summarise(num_mp = n_distinct(cpf),
+            spending = sum(spending),
+            mean_spending_per_mp = sum(spending)/num_mp) %>%
+  ggplot(aes(x=month_year, y = mean_spending_per_mp)) + geom_line() +
+  theme_bw() + xlab("date") + ylab("Mean Spending per MP")
+
+allowance_month %>%
+  ungroup() %>%
+  group_by(month_year) %>%
+  summarise(num_mp = n_distinct(cpf),
+            spending = sum(spending),
+            mean_spending_per_mp = sum(spending)/num_mp) %>%
+  ggplot(aes(x=month_year, y = num_mp)) + geom_line() +
+  theme_bw() + xlab("date") + ylab("Number of MPs")
+
+tar_load(legislators_1st_match_data)
+y_inspect <- legislators_1st_match_data %>%
+  filter(cpf == 19530773587)
+View(y_inspect)
+
+tar_load(legislators_1st_match_data)
+y_inspect <- legislators_1st_match_data %>%
+  filter(cpf == 19530773587)
+View(y_inspect)
+
+# Agregando os dados para contar o número de tuítes por mês/ano para cada deputado
+df_agregado <- legislators_1st_match_data %>%
+  mutate(created_at = as.Date(created_at),
+         mes_ano = floor_date(created_at, "month")) %>%
+  group_by(cpf, mes_ano) %>%
+  summarise(num_tuites = n(), .groups = 'drop') %>%
+  filter(cpf != "") %>%
+  mutate(treatment = ifelse(num_tuites > 0, 1, 0))
+
+# Criando um data frame completo de CPFs e meses/anos
+cpf_range <- unique(df_agregado$cpf)
+date_range <- seq(from = min(df_agregado$mes_ano), to = max(df_agregado$mes_ano), by = "month")
+
+complete_data <- expand.grid(cpf = cpf_range, mes_ano = date_range) %>%
+  arrange(cpf, mes_ano)
+
+# Unindo aos dados atuais e preenchendo valores ausentes
+dados_completos <- left_join(complete_data, df_agregado, by = c("cpf", "mes_ano")) %>%
+  replace_na(list(num_tuites = 0, treatment = 0))
+# Criando o gráfico
+
+library(panelView)
+
+# Supondo que df_panel seja o seu dataframe preparado
+# com as colunas 'id' (CPF do deputado), 'time' (tempo, e.g., ano-mês),
+# e 'treatment' (indicador de tratamento, e.g., se um tuíte ocorreu).
+
+# Visualização básica com panelView
+panelview(num_tuites ~ treatment, data = dados_completos, index = c("cpf", "mes_ano"),
+          xlab = "month-year", ylab = "MP", axis.lab.gap = c(5,0))
+
+panelView(Y ~ treatment, data = simdata1, index = c("cpf", "mes_ano"),
+          axis.lab = "time", xlab = "Time", ylab = "Unit", show.id = c(1:100),
+          theme.bw = TRUE, type = "outcome", main = "Simulated Data: Y")
+
+ggplot(df_agregado, aes(x = mes_ano, y = num_tuites, color = as.factor(cpf))) +
+  geom_line() +
+  theme_minimal() +
+  labs(x = "Tempo", y = "Número de Tuítes", color = "CPF do Deputado") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_date(date_labels = "%b %Y", date_breaks = "1 month")
+
 
 tr_df <- leg_tweet_allowance_joined %>%
   dplyr::slice(1:1000)

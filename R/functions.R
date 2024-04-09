@@ -97,137 +97,142 @@ allowance_by_month <- function(data) {
   df <- data %>%
     filter(nu_legislatura %in% c("2015", "2019")) %>%
     mutate(month_year = floor_date(dat_emissao, "month"),
-           spending = as.numeric(vlr_documento)) %>%
+           spending = as.numeric(vlr_documento),
+           net_spending = as.numeric(vlr_liquido),
+           vlr_restituicao = as.numeric(vlr_restituicao)) %>%
     filter(cpf  != "") %>%
     group_by(cpf, month_year) %>%
-    summarise(spending = sum(spending))
+    summarise(spending = sum(spending),
+              net_spending = sum(net_spending, na.rm=T),
+              mp_cashback = sum(vlr_restituicao, na.rm=T),
+              sg_partido = max(sg_partido),
+              sg_uf = max(sg_uf))
 }
 
-plot_treatment_status <- function(data) {
-  panelview(num_tuites ~ treatment, data = data, index = c("cpf", "mes_ano"),
-            xlab = "month-year", ylab = "MP", axis.lab.gap = c(5,0))
-}
-
-unique_cpf <- function(data1) {
+prep_data_panelmatch <- function(data1, data2) {
   
-  base_cpf1 <- data1 %>%
-    ungroup() %>%
-    distinct(cpf)
-}
-
-create_aux_vec <- function(data) {
-  vec <- seq(1, nrow(data), by = floor(nrow(data)/3))
-}
-  
-sample1 <- function(data1, vec_cpf) {
-  
-  sample_cpf1 <-  data1 %>%
-    ungroup() %>%
-    distinct(cpf) %>%
-    slice(vec_cpf[1]:vec_cpf[2])
-}
-
-sample2 <- function(data1, vec_cpf) {
-  
-  sample_cpf2 <- data1 %>%
-    ungroup() %>%
-    distinct(cpf) %>%
-    slice(vec_cpf[2]:vec_cpf[3])
-}
-
-sample3 <- function(data1, vec_cpf, df_unique_cpf) {
-  
-  sample_cpf3 <- data1 %>%
-    ungroup() %>%
-    distinct(cpf) %>%
-    slice(vec_cpf[3]:nrow(df_unique_cpf))
-}
-
-plot_outcome_treatment1 <- function(data1, data2, s_df) {
   data2 <- data2 %>%
     rename(month_year = mes_ano)
   
   df1 <- data1 %>%
     left_join(data2, by = join_by(cpf, month_year)) %>%
-    mutate(num_tuites = ifelse(is.na(num_tuites), 0, 1),
-           treatment = ifelse(is.na(treatment), 0, 1)) %>%
-    inner_join(s_df, by= join_by(cpf))
-  
-  panelview(spending ~ treatment, data = df1, index = c("cpf","month_year"),
-            axis.lab = "time", xlab = "Time", ylab = "Spending", show.id = c(1:200),
-            theme.bw = TRUE, type = "outcome", main = "Total spending",
-            axis.lab.gap = c(5,0), pre.post=TRUE, shade.post=TRUE)
-}  
-
-plot_outcome_treatment2 <- function(data1, data2, s_df) {
-  data2 <- data2 %>%
-    rename(month_year = mes_ano)
-  
-  df2 <- data1 %>%
-    left_join(data2, by = join_by(cpf, month_year)) %>%
-    mutate(num_tuites = ifelse(is.na(num_tuites), 0, 1),
-           treatment = ifelse(is.na(treatment), 0, 1)) %>%
-    inner_join(s_df, by= join_by(cpf))
-  
-  panelview(spending ~ treatment, data = df2, index = c("cpf","month_year"),
-            axis.lab = "time", xlab = "Time", ylab = "Spending", show.id = c(1:200),
-            theme.bw = TRUE, type = "outcome", main = "Total spending",
-            axis.lab.gap = c(5,0), pre.post=TRUE, shade.post=TRUE)
-}  
-
-plot_outcome_treatment3 <- function(data1, data2, s_df) {
-  data2 <- data2 %>%
-    rename(month_year = mes_ano)
-  
-  df3 <- data1 %>%
-    left_join(data2, by = join_by(cpf, month_year)) %>%
-    mutate(num_tuites = ifelse(is.na(num_tuites), 0, 1),
-           treatment = ifelse(is.na(treatment), 0, 1)) %>%
-    inner_join(s_df, by= join_by(cpf))
-  
-  panelview(spending ~ treatment, data = df3, index = c("cpf","month_year"),
-            axis.lab = "time", xlab = "Time", ylab = "Spending", show.id = c(1:200),
-            theme.bw = TRUE, type = "outcome", main = "Total spending",
-            axis.lab.gap = c(5,0), pre.post=TRUE, shade.post=TRUE)
-}  
-
-plot_spending_desc <- function(data) {
-  
-  allowance_month <- data %>%
-    mutate(month_year = floor_date(dat_emissao, "month"),
-           spending = as.numeric(vlr_documento)) %>%
-    filter(cpf  != "") %>%
-    group_by(cpf, nu_legislatura, month_year) %>%
-    summarise(spending = sum(spending))
-  
-  allowance_month %>%
     ungroup() %>%
-    group_by(month_year) %>%
-    summarise(num_mp = n_distinct(cpf),
-              spending = sum(spending),
-              mean_spending_per_mp = sum(spending)/num_mp) %>%
-    ggplot(aes(x=month_year, y = spending)) + geom_line()  +
-    theme_bw() + xlab("date") + ylab("Total spending")
+    filter(month_year > "2014-01-01") %>%
+    mutate(num_tuites = ifelse(is.na(num_tuites), 0, num_tuites),
+           treatment = ifelse(is.na(treatment), 0, treatment),
+           cpf_id = as.integer(cpf),
+           time = 1+ interval(start = min(month_year), end = month_year) / months(1),
+           time = as.integer(time)) %>%
+    filter(!is.na(cpf_id))
   
-  allowance_month %>%
-    ungroup() %>%
-    group_by(month_year) %>%
-    summarise(num_mp = n_distinct(cpf),
-              spending = sum(spending),
-              mean_spending_per_mp = sum(spending)/num_mp) %>%
-    ggplot(aes(x=month_year, y = mean_spending_per_mp)) + geom_line() +
-    theme_bw() + xlab("date") + ylab("Mean Spending per MP")
+  df1 <- as.data.frame(df1)
+  df1$time <- as.integer(df1$time)
+  df1$cpf_id <- as.integer(df1$cpf_id)
+  df1$uf <- as.factor(df1$sg_uf)
+  df1$party <- as.factor(df1$sg_partido)
   
-  allowance_month %>%
-    ungroup() %>%
-    group_by(month_year) %>%
-    summarise(num_mp = n_distinct(cpf),
-              spending = sum(spending),
-              mean_spending_per_mp = sum(spending)/num_mp) %>%
-    ggplot(aes(x=month_year, y = num_mp)) + geom_line() +
-    theme_bw() + xlab("date") + ylab("Number of MPs")
+  return(df1)
+}
+
+
+plot_status <- function(data) {
+  DisplayTreatment(unit.id = "cpf_id",
+                   time.id = "time", legend.position = "none",
+                   xlab = "date", ylab = "cpf",
+                   treatment = "treatment", data = data,
+                   hide.x.tick.label = TRUE, hide.y.tick.label = TRUE,
+                   dense.plot = TRUE)
+}
+
+pm_maha_spending <- function(data) {
+  data <- as.data.frame(data)
+  
+  PM.results.maha <- PanelMatch(lag = 4, time.id = "time", unit.id = "cpf_id",
+                                treatment = "treatment", refinement.method = "mahalanobis",
+                                # use Mahalanobis distance
+                                data = data, match.missing = TRUE,
+                                covs.formula = ~ uf + party,
+                                size.match = 5, qoi = "att" , outcome.var = "spending",
+                                lead = 0:5, forbid.treatment.reversal = FALSE,
+                                use.diagonal.variance.matrix = TRUE)
+}
+
+pm_maha_net_spending <- function(data) {
+  data <- as.data.frame(data)
+  
+  PM.results.maha <- PanelMatch(lag = 4, time.id = "time", unit.id = "cpf_id",
+                                treatment = "treatment", refinement.method = "mahalanobis",
+                                # use Mahalanobis distance
+                                data = data, match.missing = TRUE,
+                                covs.formula = ~ uf + party,
+                                size.match = 5, qoi = "att" , outcome.var = "net_spending",
+                                lead = 0:5, forbid.treatment.reversal = FALSE,
+                                use.diagonal.variance.matrix = TRUE)
+}
+
+pm_maha_cash <- function(data) {
+  data <- as.data.frame(data)
+  
+  PM.results.maha <- PanelMatch(lag = 4, time.id = "time", unit.id = "cpf_id",
+                                treatment = "treatment", refinement.method = "mahalanobis",
+                                # use Mahalanobis distance
+                                data = data, match.missing = TRUE,
+                                covs.formula = ~ uf + party,
+                                size.match = 5, qoi = "att" , outcome.var = "mp_cashback",
+                                lead = 0:5, forbid.treatment.reversal = FALSE,
+                                use.diagonal.variance.matrix = TRUE)
+}
+
+teste_pm <- function(pe_results) {
+  msets.maha <- pe_results$att
+  plot(msets.maha)
+}
+
+reg_twfe <- function(pe_results, data) {
+  PE.results.maha <- PanelEstimate(sets = pe_results, data = data,
+                                   se.method = "bootstrap",
+                                   number.iterations = 1000,
+                                   confidence.level = .95)
   
 }
+
+# plot_spending_desc <- function(data) {
+#   
+#   allowance_month <- data %>%
+#     mutate(month_year = floor_date(dat_emissao, "month"),
+#            spending = as.numeric(vlr_documento)) %>%
+#     filter(cpf  != "") %>%
+#     group_by(cpf, nu_legislatura, month_year) %>%
+#     summarise(spending = sum(spending))
+#   
+#   allowance_month %>%
+#     ungroup() %>%
+#     group_by(month_year) %>%
+#     summarise(num_mp = n_distinct(cpf),
+#               spending = sum(spending),
+#               mean_spending_per_mp = sum(spending)/num_mp) %>%
+#     ggplot(aes(x=month_year, y = spending)) + geom_line()  +
+#     theme_bw() + xlab("date") + ylab("Total spending")
+#   
+#   allowance_month %>%
+#     ungroup() %>%
+#     group_by(month_year) %>%
+#     summarise(num_mp = n_distinct(cpf),
+#               spending = sum(spending),
+#               mean_spending_per_mp = sum(spending)/num_mp) %>%
+#     ggplot(aes(x=month_year, y = mean_spending_per_mp)) + geom_line() +
+#     theme_bw() + xlab("date") + ylab("Mean Spending per MP")
+#   
+#   allowance_month %>%
+#     ungroup() %>%
+#     group_by(month_year) %>%
+#     summarise(num_mp = n_distinct(cpf),
+#               spending = sum(spending),
+#               mean_spending_per_mp = sum(spending)/num_mp) %>%
+#     ggplot(aes(x=month_year, y = num_mp)) + geom_line() +
+#     theme_bw() + xlab("date") + ylab("Number of MPs")
+#   
+# }
 
 print_summary <- function(data) {
   print(summary(data))

@@ -9,16 +9,10 @@ tar_visnetwork()
 tar_make()
 # targets::tar_meta(fields = warnings, complete_only = TRUE)
 
-tar_load(cota_parlamentar_data1)
-tar_read(plot_t_status)
+tar_load(reg_twfe_results_spending)
+tar_load(reg_twfe_results_net_spending)
+tar_load(reg_twfe_results_cashback)
 
-df2 <- clean_parlamentary_data(cota_parlamentar_data1)
-glimpse(df2)
-
-cota_parlamentar_data1 %>%
-  mutate(legis_number = as.numeric(nu_legislatura)) %>%
-  group_by(legis_number) %>%
-  summarise(n())
-
-tar_load(legislators_1st_match_data)
-glimpse(legislators_1st_match_data)
+plot(reg_twfe_results_spending)
+plot(reg_twfe_results_net_spending)
+plot(reg_twfe_results_cashback)

@@ -10,7 +10,8 @@ library(targets)
 # Set target options:
 tar_option_set(
 packages = c("tidyverse", "data.table", "readxl", "here",
-             "tools", "janitor", "lubridate", "panelView"), # Packages that your targets need for their tasks.
+             "tools", "janitor", "lubridate",
+             "PanelMatch"), # Packages that your targets need for their tasks.
 format = "rds", # Optionally set the default storage format. qs is fast.
   #
   # Pipelines that take a long time to run may benefit from
@@ -64,15 +65,14 @@ list(
   tar_target(legislators_1st_match_data, names_first_match(legislators_name_data_cleaned, tweet_data1_cleaned)),
   tar_target(tweet_by_month_df, tweets_by_month(legislators_1st_match_data)),
   tar_target(spending_by_month_df, allowance_by_month(parlamentary_allowance_data)),
-  tar_target(plot_t_status, plot_treatment_status(tweet_by_month_df)),
-  tar_target(plots_outcome, plot_spending_desc(parlamentary_allowance_data)),
-  tar_target(df_unique_cpf, unique_cpf(spending_by_month_df)),
-  tar_target(vec_cpfs, create_aux_vec(df_unique_cpf)),
-  tar_target(df_sample1, sample1(df_unique_cpf, vec_cpfs)),
-  tar_target(df_sample2, sample2(df_unique_cpf, vec_cpfs)),
-  tar_target(df_sample3, sample3(df_unique_cpf, vec_cpfs, df_unique_cpf)),
-  tar_target(plots_outcome_treatment_panel1, plot_outcome_treatment1(spending_by_month_df, tweet_by_month_df, df_sample1)),
-  tar_target(plots_outcome_treatment_panel2, plot_outcome_treatment2(spending_by_month_df, tweet_by_month_df, df_sample2)),
-  tar_target(plots_outcome_treatment_panel3, plot_outcome_treatment3(spending_by_month_df, tweet_by_month_df, df_sample3)),
+  tar_target(df_panel_match, prep_data_panelmatch(spending_by_month_df,tweet_by_month_df )),
+  tar_target(plot_status_treatment, plot_status(df_panel_match)),
+  tar_target(pm_results_maha_spending, pm_maha_spending(df_panel_match)),
+  tar_target(pm_results_maha_net_spending, pm_maha_net_spending(df_panel_match)),
+  tar_target(pm_results_maha_cashback, pm_maha_cash(df_panel_match)),
+  tar_target(plot_teste, teste_pm(pm_results_maha_spending)),
+  tar_target(reg_twfe_results_spending, reg_twfe(pm_results_maha_spending, df_panel_match)),
+  tar_target(reg_twfe_results_net_spending, reg_twfe(pm_results_maha_net_spending, df_panel_match)),
+  tar_target(reg_twfe_results_cashback, reg_twfe(pm_results_maha_cashback, df_panel_match)),
   tar_target(leg_tweet_allowance_joined, join_by_cpf(legislators_1st_match_data, parlamentary_allowance_data)),
   tar_target(summary_match, print_summary(leg_tweet_allowance_joined)))
