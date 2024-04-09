@@ -196,44 +196,15 @@ reg_twfe <- function(pe_results, data) {
   
 }
 
-# plot_spending_desc <- function(data) {
-#   
-#   allowance_month <- data %>%
-#     mutate(month_year = floor_date(dat_emissao, "month"),
-#            spending = as.numeric(vlr_documento)) %>%
-#     filter(cpf  != "") %>%
-#     group_by(cpf, nu_legislatura, month_year) %>%
-#     summarise(spending = sum(spending))
-#   
-#   allowance_month %>%
-#     ungroup() %>%
-#     group_by(month_year) %>%
-#     summarise(num_mp = n_distinct(cpf),
-#               spending = sum(spending),
-#               mean_spending_per_mp = sum(spending)/num_mp) %>%
-#     ggplot(aes(x=month_year, y = spending)) + geom_line()  +
-#     theme_bw() + xlab("date") + ylab("Total spending")
-#   
-#   allowance_month %>%
-#     ungroup() %>%
-#     group_by(month_year) %>%
-#     summarise(num_mp = n_distinct(cpf),
-#               spending = sum(spending),
-#               mean_spending_per_mp = sum(spending)/num_mp) %>%
-#     ggplot(aes(x=month_year, y = mean_spending_per_mp)) + geom_line() +
-#     theme_bw() + xlab("date") + ylab("Mean Spending per MP")
-#   
-#   allowance_month %>%
-#     ungroup() %>%
-#     group_by(month_year) %>%
-#     summarise(num_mp = n_distinct(cpf),
-#               spending = sum(spending),
-#               mean_spending_per_mp = sum(spending)/num_mp) %>%
-#     ggplot(aes(x=month_year, y = num_mp)) + geom_line() +
-#     theme_bw() + xlab("date") + ylab("Number of MPs")
-#   
-# }
+plot_spending_desc <- function(data) {
 
-print_summary <- function(data) {
-  print(summary(data))
+  data %>%
+    ungroup() %>%
+    group_by(month_year) %>%
+    summarise(num_mp = n_distinct(cpf),
+              spending = sum(spending),
+              mean_spending_per_mp = sum(spending)/num_mp) %>%
+    ggplot(aes(x=month_year, y = spending)) + geom_line()  +
+    theme_bw() + xlab("date") + ylab("Total spending") + geom_smooth(method=lm)
 }
+

@@ -1,8 +1,10 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
 add_legislature|function|82a16ddadd2b97c9|||||||||||||||
+allowance_by_month|function|6de63912bd360fd9|||||||||||||||
 clean_names_legislators|function|e3c3fc47adeb0df9|||||||||||||||
 clean_parlamentary_data|function|acedb2c7fcafde1c|||||||||||||||
 cota_parlamentar_data1|stem|2b53cb5060d951d7|bd60dd6c70bb5e10|b735dab9087f22e9|1330581961||t19821.7505726191s|99f02c9bdda7f7e2|98109925|rds|local|vector|||17.01||
+df_panel_match|stem|cb5d995bb8fd7c05|ad84cfd691da922b|97b694cba4e7e74c|200249126||t19822.8820887432s|9f15b885860f486a|53207|rds|local|vector|||0.79|There was 1 warning in mutate.ℹ In argument cpf_id  as.integercpf.Caused by warning NAs introduced by coercion to integer range|
 get_legislators_name|function|f352861e65f28f42|||||||||||||||
 get_raw_data|function|1d09c65a8f2fc86d|||||||||||||||
 join_by_cpf|function|847fb92d82eabcb7|||||||||||||||
@@ -13,13 +15,33 @@ legislators_name_data|stem|d7be2b4f6e9b44f8|66084fd20c275cc0|837d301a7f5c9a98|19
 legislators_name_data_cleaned|stem|a614d1bfdb57ed23|d6b4e2f3a063bdc2|a167dfc97cc24fe8|-2128731410||t19821.7513275487s|5832a05f36bc156c|54169|rds|local|vector|||0.01||
 names_first_match|function|4b99a80ed39d030e|||||||||||||||
 parlamentary_allowance_data|stem|f7c63ce898cf0621|b61f3967cb7025da|6e17151e79850683|-691590121||t19821.7513259347s|ed8e947628d48dc4|87603647|rds|local|vector|||20.67|There was 1 warning in mutate.ℹ In argument dat_emissao  as_datedat_emissao.Caused by warning  12 failed to parse.|
+plot_desc1|stem|3f41653445bbe13f|5573be61fc24cedc|918df031811df639|1174416821||t19822.9031567903s|1480676a0dd50802|141466|rds|local|vector|||0.03||
+plot_spending_desc|function|43b454bdca99951c|||||||||||||||
+plot_status|function|3b16b818f6faab1c|||||||||||||||
+plot_status_treatment|stem|e87bd852cb131421|e85a7b411fb54ffd|ad0c4b236d14aded|2065756849||t19822.882131844s|46ad522a6a77ec37|176814|rds|local|vector|||0.38||
+plot_teste|stem|d131862dc333587a|517f6c449cd4a0ef|21916932af9a65a2|-1629804479||t19822.88218778s|44e327d1ee1978d7|43|rds|local|vector|||0.14||
+pm_maha_cash|function|67a7ed3bec0e57ec|||||||||||||||
+pm_maha_net_spending|function|606be43fd225c907|||||||||||||||
+pm_maha_spending|function|6383cc5d2c3ff431|||||||||||||||
+pm_results_maha_cashback|stem|bfcfa212af780517|f8d3dcf6b97700ee|4f48f90fc9284fe0|518239415||t19822.8821415889s|ab90d34e0d15a5de|61422|rds|local|vector|||0.82|nonnumeric data exists. Only numeric including binary data can be used for refinement and calculations|
+pm_results_maha_net_spending|stem|d8b773fc9b91a0b6|8a7f33baf26d44e7|189c65dee5032b48|-1416291568||t19822.8821266575s|a282f4fda698e932|61424|rds|local|vector|||2.03|nonnumeric data exists. Only numeric including binary data can be used for refinement and calculations|
+pm_results_maha_spending|stem|7ccbb8811e8d8a45|8c011598a3d55f17|02cac877bfd23d06|-36778210||t19822.8821027493s|8fe5e81ed36aab3e|61419|rds|local|vector|||1.18|nonnumeric data exists. Only numeric including binary data can be used for refinement and calculations|
+prep_data_panelmatch|function|2617e19c42498e93|||||||||||||||
 print_summary|function|6a7a2ab0e8eac531|||||||||||||||
-summary_match|stem|700fe83471e182a9|67b09ddd4e847ce2|1a0b39a84e613a18|476882422||t19821.7590708741s|33fc5a4849fac781|950|rds|local|vector|||0.86||
+reg_twfe|function|a8088965e609643f|||||||||||||||
+reg_twfe_results_cashback|stem|6be5b7dadaa6549d|e2d26559e43ae7e6|f81ae21b89300c27|1058353987||t19822.882274386s|6716f22e7abc547c|107985|rds|local|vector|||3.71||
+reg_twfe_results_net_spending|stem|a3693a100a0a5cb2|a80d57baf116e906|5a95ca220d446688|-1003156264||t19822.882230984s|ba4f7b7bb218f58f|108901|rds|local|vector|||3.7||
+reg_twfe_results_spending|stem|60b056139d8ffc5c|259d5fff6fc83a1a|32b90240a7ad6ca3|678391559||t19822.88218602s|a81a494a976121d1|108897|rds|local|vector|||3.79||
+spending_by_month_df|stem|1476ca58df6bd956|d76c4f661561da9b|93d131a8eb216c5a|482424054||t19822.8820779985s|02208bf4c660a18d|566469|rds|local|vector|||10.86||
+summary_match|stem|700fe83471e182a9|67b09ddd4e847ce2|b2d3ee51f7bee3fd|476882422||t19821.7590708741s||950|rds|local|vector|||0.02||não foi possível encontrar a função print_summary
 teste|stem|d731cf8310cd6ccb|ce387b9975b5cfff|17733b37e7b7969f|-1638544619||t19779.7587428095s|a1c456b03adbfbf8|44|rds|local|vector|||0.7|package ggplot2 was built under R version 4.3.2|
 teste_here|function|4394b9cceeac17c2|||||||||||||||
+teste_pm|function|e9868da2b44d1299|||||||||||||||
+tweet_by_month_df|stem|5bfa511d7b2f54fa|5056a8573941550d|1c52007a36a8887e|-822358835||t19822.8820791514s|d8da0c123c17f30c|11599|rds|local|vector|||0.07||
 tweet_data1|stem|181485bb46a3c63d|3d12309965a8549b|9cf1c6ad58dabc97|-511490467||t19821.7505745588s|f88308f972e964af|48917|rds|local|vector|||0.05||
 tweet_data1_cleaned|stem|f83f5ed1454ec9ea|87c428cd0af2b796|1af9a44b8007d1df|-24610761||t19821.7513271405s|609dc41f9cf0570e|47962|rds|local|vector|||0.01||
 tweet_data2|stem|ed50a6998715c958|0d7d4c405c985388|2ad0e6d62a8305ac|-2047479844||t19821.7505747787s|09675626d3483494|4461|rds|local|vector|||0.01||
 tweet_data2_cleaned|stem|594f40d62bf2b1f5|e7125ac02ef31d8b|bc4978783d2f2498|1028687499||t19779.7907129467s|de1050be8c5f2839|4519|rds|local|vector|||0||
 tweet_file1|stem|011b7ef56cef2bf4|3a284d0929718d8e|ef46db3751d8e999|-262550952|Raw data/v2 COM NOMES.rosiedaserenata_tweets1_8April2017 to 16Sep2021.xlsx|t19821.7494881797s|dfb4f9cab40f1d39|163158|file|local|vector|||0||
 tweet_file2|stem|b0d5d78f17c0aac3|24ba8bdd98ffb365|ef46db3751d8e999|-208179987|Raw data/Rosie_22October2021_10November 2022.csv|t19821.749485157s|2412f53f59e07722|36437|file|local|vector|||0||
+tweets_by_month|function|343417702aeb5616|||||||||||||||

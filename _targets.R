@@ -66,6 +66,7 @@ list(
   tar_target(tweet_by_month_df, tweets_by_month(legislators_1st_match_data)),
   tar_target(spending_by_month_df, allowance_by_month(parlamentary_allowance_data)),
   tar_target(df_panel_match, prep_data_panelmatch(spending_by_month_df,tweet_by_month_df )),
+  tar_target(plot_desc1, plot_spending_desc(df_panel_match)),
   tar_target(plot_status_treatment, plot_status(df_panel_match)),
   tar_target(pm_results_maha_spending, pm_maha_spending(df_panel_match)),
   tar_target(pm_results_maha_net_spending, pm_maha_net_spending(df_panel_match)),
@@ -74,5 +75,5 @@ list(
   tar_target(reg_twfe_results_spending, reg_twfe(pm_results_maha_spending, df_panel_match)),
   tar_target(reg_twfe_results_net_spending, reg_twfe(pm_results_maha_net_spending, df_panel_match)),
   tar_target(reg_twfe_results_cashback, reg_twfe(pm_results_maha_cashback, df_panel_match)),
-  tar_target(leg_tweet_allowance_joined, join_by_cpf(legislators_1st_match_data, parlamentary_allowance_data)),
-  tar_target(summary_match, print_summary(leg_tweet_allowance_joined)))
+  tar_target(leg_tweet_allowance_joined, join_by_cpf(legislators_1st_match_data, parlamentary_allowance_data))
+)
