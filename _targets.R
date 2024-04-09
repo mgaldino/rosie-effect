@@ -10,7 +10,7 @@ library(targets)
 # Set target options:
 tar_option_set(
 packages = c("tidyverse", "data.table", "readxl", "here",
-             "tools", "janitor", "lubridate"), # Packages that your targets need for their tasks.
+             "tools", "janitor", "lubridate", "panelView"), # Packages that your targets need for their tasks.
 format = "rds", # Optionally set the default storage format. qs is fast.
   #
   # Pipelines that take a long time to run may benefit from
@@ -62,5 +62,17 @@ list(
   tar_target(legislators_name_data_cleaned, clean_names_legislators(legislators_name_data, "tx_nome_parlamentar")),
   tar_target(tweet_data1_cleaned, clean_names_legislators(tweet_data1, "nome_deputado")),
   tar_target(legislators_1st_match_data, names_first_match(legislators_name_data_cleaned, tweet_data1_cleaned)),
+  tar_target(tweet_by_month_df, tweets_by_month(legislators_1st_match_data)),
+  tar_target(spending_by_month_df, allowance_by_month(parlamentary_allowance_data)),
+  tar_target(plot_t_status, plot_treatment_status(tweet_by_month_df)),
+  tar_target(plots_outcome, plot_spending_desc(parlamentary_allowance_data)),
+  tar_target(df_unique_cpf, unique_cpf(spending_by_month_df)),
+  tar_target(vec_cpfs, create_aux_vec(df_unique_cpf)),
+  tar_target(df_sample1, sample1(df_unique_cpf, vec_cpfs)),
+  tar_target(df_sample2, sample2(df_unique_cpf, vec_cpfs)),
+  tar_target(df_sample3, sample3(df_unique_cpf, vec_cpfs, df_unique_cpf)),
+  tar_target(plots_outcome_treatment_panel1, plot_outcome_treatment1(spending_by_month_df, tweet_by_month_df, df_sample1)),
+  tar_target(plots_outcome_treatment_panel2, plot_outcome_treatment2(spending_by_month_df, tweet_by_month_df, df_sample2)),
+  tar_target(plots_outcome_treatment_panel3, plot_outcome_treatment3(spending_by_month_df, tweet_by_month_df, df_sample3)),
   tar_target(leg_tweet_allowance_joined, join_by_cpf(legislators_1st_match_data, parlamentary_allowance_data)),
   tar_target(summary_match, print_summary(leg_tweet_allowance_joined)))
