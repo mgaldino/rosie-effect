@@ -1,0 +1,56 @@
+---
+title: "report"
+author: "Manoel Galdino"
+date: "2024-04-09"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+It is now known that in the presence of varying treatment periods for multiple units, teh causal coefficient is a is the weighted average of all two-group/two-period DiD estimators in the data where some of the weights can be negative.
+
+Standard estimators are only good if effects are homogeneous across units and across time periods, which in general is not credible. Thus, we need to use new DiD estimator. There are several estimators in the literatura, but when units switch in and out of treatment, which is the case of our study, there is only one estimator (as far as I know): the one proposed by Imai and Kim (2021).
+
+PanelMatch
+
+```{r cars}
+summary(cars)
+```
+
+## What is missing?
+
+### Definition of time period
+
+the estimator is implicitly a comparison between treatment and control for one time period. And the time period is a month. But perhaps the time period should be longer (three months? 6 months?). For different time periods, we need to aggregate the data correspondigly. We need to do this. Didn't have time, but it should be more or less straightforward.
+
+### We need to add covariates that are possible confoudings.
+
+Mp's Parties. It is possible that, say, MPs from centrão sepnd more and are less infuenced by twitter monitoring..
+
+Government coalition. It is possible that, say, MPs from government coalition spending more and are more infuenced by twitter monitoring.
+
+Social media presence. It is possible that, say, MPs with more social media presence spending more (or less?) and are more infuenced by twitter monitoring.
+
+## Next steps
+
+Getting political data is easy and we can include in the regressions
+
+Getting social media presence is harder, specially because ideally we should get the number of followers or number of posts or engagement from the the time window we are looking into. The simplest one is to get if the MP is on twitter at the time of monitoring. Still, it will take some time.
+
+After getting all the data, rerun the analysis and see if it changes anything.
+
+## References
+
+Imai, Kosuke, and In Song Kim. 2021. “On the Use of Two-Way Fixed Effects Regression Models for Causal Inference with Panel Data.” Political Analysis 29 (3): 405–15.
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
